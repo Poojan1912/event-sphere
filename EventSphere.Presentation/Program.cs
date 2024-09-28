@@ -1,15 +1,21 @@
 using EventSphere.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
-var dbPassword = builder.Configuration["DB_PASSWORD"];
-var connectionString = builder.Configuration.GetConnectionString("defaultConnection")?.Replace("{dbPassword}", dbPassword);
+
+var connectionStringBuilder = new NpgsqlConnectionStringBuilder(
+    builder.Configuration.GetConnectionString("DefaultConnection"))
+{
+    Password = builder.Configuration["DB_PASSWORD"]
+};
+var connection = connectionStringBuilder.ConnectionString;
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connection));
 
 var app = builder.Build();
 
