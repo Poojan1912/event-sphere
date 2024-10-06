@@ -16,15 +16,17 @@ EventSphere is built using **ASP.NET Core**, **Angular** and **PostgreSQL**, fol
 - PostgreSQL 17 (locally or in a cloud service)
 - Visual Studio 2022 or any terminal supporting .NET CLI
 
+### Local Development Configurations
+
+For local development, you need to configure the database password (DB_PASSWORD) and jwt secret (JWT_SECRET) using app secrets in secrets.json. Setup the secrets for EventSphere.Presentation project.
+
 ### Setting up the Database
 
-Before running the application, you need to set up the connection to the PostgreSQL database and run the required Entity Framework Core migrations.
+You need to set up the connection to the PostgreSQL database and run the required Entity Framework Core migrations.
 
 1. **Create the Database**: Create a new database `EventSphereDB`.
 
-2. **Password Configuration**: For local development, store sensitive data like database password in `secrets.json`. The password stored in secrets.json will directly be added to the connection string.
-
-3. **Update the database**: After successful connection with the database, update the database through the existing migrations using below command:
+2. **Update the database**: After successful connection with the database, update the database through the existing migrations using below command:
    ```bash
    dotnet ef database update --project EventSphere.Infrastructure --startup-project EventSphere.Presentation
    ```
