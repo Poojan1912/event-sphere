@@ -1,6 +1,6 @@
 # EventSphere
 
-EventSphere is built using **ASP.NET Core**, **Angular** and **PostgreSQL**, following a 5-layer architecture (Clean Architecture). It implements **ASP.NET Core Identity** for authentication and authorization.
+EventSphere is built using **ASP.NET Core**, **Angular** and **PostgreSQL**, following Clean Architecture. It implements **ASP.NET Core Identity** for authentication and authorization.
 
 ## Project Structure
 
