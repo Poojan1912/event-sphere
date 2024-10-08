@@ -1,4 +1,5 @@
-using EventSphere.Infrastructure.Data;
+using EventSphere.Infrastructure.Database;
+using EventSphere.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +19,11 @@ var connection = connectionStringBuilder.ConnectionString;
 var secret = builder.Configuration["JWT_SECRET"] ?? throw new InvalidOperationException("JWT Secret is not configured.");
 byte[] key = Encoding.UTF8.GetBytes(secret);
 
-// Add services to the container.
+// Service registration for Dependency Injection
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton(builder.Configuration);
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connection));
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
@@ -37,9 +39,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddInfrastructureServices();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Request Processing Pipeline configuration
 app.MapIdentityApi<IdentityUser>();
 
 if (app.Environment.IsDevelopment())
