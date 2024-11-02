@@ -1,5 +1,5 @@
-﻿using EventSphere.Application.Abstractions;
-using EventSphere.Application.Models;
+﻿using EventSphere.Core.Abstractions;
+using EventSphere.Core.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

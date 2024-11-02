@@ -1,5 +1,7 @@
-﻿using EventSphere.Application.Abstractions;
-using EventSphere.Application.Models;
+﻿using EventSphere.Core.Abstractions;
+using EventSphere.Core.Errors;
+using EventSphere.Core.Models;
+using EventSphere.Core.Primitives;
 using Microsoft.AspNetCore.Identity;
 
 namespace EventSphere.Infrastructure.Services.Auth;
@@ -14,12 +16,12 @@ public class AuthService(
     private readonly SignInManager<IdentityUser> _signInManager = signInManager;
     private readonly ITokenProviderService _tokenProviderService = tokenProviderService;
 
-    public async Task<string> LoginAsync(Login login)
+    public async Task<Result<string>> LoginAsync(Login login)
     {
         var result = await _signInManager.PasswordSignInAsync(login.Email!, login.Password!, false, false);
         if (!result.Succeeded)
         {
-            throw new Exception("Invalid login attempt.");
+            return Result<string>.Failure(LoginErrors.InvalidCredentials);
         }
 
         var identityUser = await _userManager.FindByEmailAsync(login.Email!) ?? throw new Exception("User not found.");
@@ -31,6 +33,7 @@ public class AuthService(
             PhoneNumber = identityUser.PhoneNumber
         };
 
-        return _tokenProviderService.Provide(user);
+        var token = _tokenProviderService.Provide(user);
+        return Result<string>.Success(token);
     }
 }

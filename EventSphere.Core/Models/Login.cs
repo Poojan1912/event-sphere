@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventSphere.Application.Models;
+namespace EventSphere.Core.Models;
 
 public class Login
 {

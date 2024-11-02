@@ -1,5 +1,5 @@
-﻿using EventSphere.Application.Abstractions;
-using EventSphere.Application.Models;
+﻿using EventSphere.Core.Abstractions;
+using EventSphere.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventSphere.Presentation.Controllers;
@@ -14,6 +14,11 @@ public class AuthController(IAuthService authService) : ControllerBase
     public async Task<IActionResult> Login([FromBody] Login login)
     {
         var result = await _authService.LoginAsync(login);
-        return Ok(result);
+        if (result.IsFailure)
+        {
+            return Unauthorized(result.Error);
+        }
+
+        return Ok(result.Value);
     }
 }
