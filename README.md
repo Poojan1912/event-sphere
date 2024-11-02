@@ -6,6 +6,7 @@ EventSphere is built using **ASP.NET Core**, **Angular** and **PostgreSQL**, fol
 
 - **EventSphere.Presentation**: The startup project that handles the API controllers, routing, and middleware. It also contains the Angular application.
 - **EventSphere.Infrastructure**: The Infrastructure project is responsible for all interactions with external resources like databases, third-party APIs, and services.
+- **EventSphere.Core**: The Core project is having important business logics and provides necessary interfaces which are implemented by Infrastructure layer services.
 
 ## Getting Started
 
@@ -18,7 +19,7 @@ EventSphere is built using **ASP.NET Core**, **Angular** and **PostgreSQL**, fol
 
 ### Local Development Configurations
 
-For local development, you need to configure the database password (DB_PASSWORD) and jwt secret (JWT_SECRET) using app secrets in secrets.json. Setup the secrets for EventSphere.Presentation project.
+For local development, you need to configure the connection string (DB_CONNECTION) and jwt secret (JWT_SECRET) using app secrets in secrets.json. Setup the secrets for EventSphere.Presentation project.
 
 ### Setting up the Database
 
