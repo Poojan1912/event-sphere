@@ -12,7 +12,7 @@ EventSphere is built using **ASP.NET Core**, **Angular** and **PostgreSQL**, fol
 
 ### Prerequisites
 
-- .NET 8 SDK
+- .NET 9 SDK
 - Node.js (LTS)
 - PostgreSQL 17 (locally or in a cloud service)
 - Visual Studio 2022 or any terminal supporting .NET CLI
