@@ -23,7 +23,7 @@ public class TokenProviderService(IConfiguration configuration) : ITokenProvider
         {
             Subject = new ClaimsIdentity(
             [
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.NameIdentifier, user.Id ?? ""),
                 new Claim(ClaimTypes.Email, user.Email ?? ""),
             ]),
             Expires = DateTime.UtcNow.AddMinutes(60),
