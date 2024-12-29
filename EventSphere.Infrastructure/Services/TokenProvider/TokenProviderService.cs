@@ -1,5 +1,7 @@
 ﻿using EventSphere.Core.Abstractions;
+using EventSphere.Core.Errors;
 using EventSphere.Core.Models;
+using EventSphere.Core.Primitives;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,19 +14,23 @@ public class TokenProviderService(IConfiguration configuration) : ITokenProvider
 {
     private readonly IConfiguration _configuration = configuration;
 
-    public string Provide(User user)
+    public Result<string> Provide(User user)
     {
-        var secretKey = _configuration["JWT_SECRET"] ?? throw new Exception("JWT Secret is missing.");
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+        var secretKey = _configuration["JWT_SECRET"];
+        if (string.IsNullOrEmpty(secretKey))
+        {
+            return Result<string>.Failure(AuthErrors.jwtSecretNotFound);
+        }
 
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(
             [
-                new Claim(ClaimTypes.NameIdentifier, user.Id ?? ""),
-                new Claim(ClaimTypes.Email, user.Email ?? ""),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Email, user.Email),
             ]),
             Expires = DateTime.UtcNow.AddMinutes(60),
             SigningCredentials = credentials,
@@ -33,6 +39,6 @@ public class TokenProviderService(IConfiguration configuration) : ITokenProvider
         var tokenHandler = new JwtSecurityTokenHandler();
         var securityToken = tokenHandler.CreateToken(tokenDescriptor);
 
-        return tokenHandler.WriteToken(securityToken);
+        return Result<string>.Success(tokenHandler.WriteToken(securityToken));
     }
 }

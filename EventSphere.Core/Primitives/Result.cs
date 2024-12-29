@@ -8,16 +8,10 @@ public class Result<T>
     {
         Value = value;
         IsSuccess = true;
-        Error = CustomError.None;
     }
 
     private Result(CustomError error)
     {
-        if (error == CustomError.None)
-        {
-            throw new ArgumentException("invalid error", nameof(error));
-        }
-
         IsSuccess = false;
         Error = error;
     }
@@ -38,7 +32,7 @@ public class Result<T>
 
         private init => _value = value;
     }
-    public CustomError Error { get; }
+    public CustomError? Error { get; }
     public static Result<T> Success(T value) => new(value);
     public static Result<T> Failure(CustomError error) => new(error);
 }

@@ -18,22 +18,29 @@ public class AuthService(
 
     public async Task<Result<string>> LoginAsync(Login login)
     {
-        var result = await _signInManager.PasswordSignInAsync(login.Email!, login.Password!, false, false);
+        var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false, false);
         if (!result.Succeeded)
         {
-            return Result<string>.Failure(LoginErrors.InvalidCredentials);
+            return Result<string>.Failure(LoginErrors.invalidCredentials);
         }
 
-        var identityUser = await _userManager.FindByEmailAsync(login.Email!) ?? throw new Exception("User not found.");
+        var identityUser = await _userManager.FindByEmailAsync(login.Email);
+        if (identityUser is null)
+        {
+            return Result<string>.Failure(LoginErrors.userNotFound);
+        }
+
+        if (string.IsNullOrEmpty(identityUser.Email))
+        {
+            return Result<string>.Failure(LoginErrors.userEmailNotFound);
+        }
 
         var user = new User
         {
             Id = identityUser.Id,
-            Email = identityUser.Email,
-            PhoneNumber = identityUser.PhoneNumber
+            Email = identityUser.Email
         };
 
-        var token = _tokenProviderService.Provide(user);
-        return Result<string>.Success(token);
+        return _tokenProviderService.Provide(user);
     }
 }
