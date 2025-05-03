@@ -5,9 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+var connection = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+var allowedOrigin = builder.Configuration.GetValue<string>("ClientApp") ?? "";
 
 // Service registration for Dependency Injection
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "allowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins(allowedOrigin)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,6 +41,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("allowSpecificOrigins");
 
 app.UseAuthorization();
 
