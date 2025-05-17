@@ -1,6 +1,6 @@
 ﻿namespace EventSphere.Core.Models;
 
-public class User
+public class UserDto
 {
     public required string Id { get; set; }
     public required string Email { get; set; }

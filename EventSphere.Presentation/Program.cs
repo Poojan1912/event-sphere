@@ -1,3 +1,4 @@
+using EventSphere.Core.Services;
 using EventSphere.Infrastructure.Database;
 using EventSphere.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +29,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddEventSphereCoreServices();
 
 var app = builder.Build();
 

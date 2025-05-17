@@ -16,7 +16,7 @@ public class AuthService(
     private readonly SignInManager<IdentityUser> _signInManager = signInManager;
     private readonly ITokenProviderService _tokenProviderService = tokenProviderService;
 
-    public async Task<Result<string>> LoginAsync(Login login)
+    public async Task<Result<string>> LoginAsync(LoginDto login)
     {
         var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false, false);
         if (!result.Succeeded)
@@ -35,7 +35,7 @@ public class AuthService(
             return Result<string>.Failure(LoginErrors.userEmailNotFound);
         }
 
-        var user = new User
+        var user = new UserDto
         {
             Id = identityUser.Id,
             Email = identityUser.Email

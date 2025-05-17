@@ -19,7 +19,7 @@ public class AuthController(IAuthService authService) : ResultsControllerBase
     /// <param name="login">The login credentials.</param>
     /// <returns>An IActionResult containing the authentication result.</returns>
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] Login login)
+    public async Task<IActionResult> Login([FromBody] LoginDto login)
     {
         var result = await _authService.LoginAsync(login);
         return HandleResult(result);

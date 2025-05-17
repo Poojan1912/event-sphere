@@ -5,5 +5,5 @@ namespace EventSphere.Core.Abstractions;
 
 public interface IAuthService
 {
-    Task<Result<string>> LoginAsync(Login login);
+    Task<Result<string>> LoginAsync(LoginDto login);
 }

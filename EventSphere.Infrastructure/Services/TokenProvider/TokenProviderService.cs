@@ -14,7 +14,7 @@ public class TokenProviderService(IConfiguration configuration) : ITokenProvider
 {
     private readonly IConfiguration _configuration = configuration;
 
-    public Result<string> Provide(User user)
+    public Result<string> Provide(UserDto user)
     {
         var secretKey = _configuration["JWT_SECRET"];
         if (string.IsNullOrEmpty(secretKey))

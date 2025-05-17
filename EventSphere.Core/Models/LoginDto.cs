@@ -2,7 +2,7 @@
 
 namespace EventSphere.Core.Models;
 
-public class Login
+public class LoginDto
 {
     [EmailAddress]
     public required string Email { get; set; }

@@ -5,5 +5,5 @@ namespace EventSphere.Core.Abstractions;
 
 public interface ITokenProviderService
 {
-    Result<string> Provide(User user);
+    Result<string> Provide(UserDto user);
 }
