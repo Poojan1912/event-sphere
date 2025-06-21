@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from "@angular/forms";
-import { AuthService } from "../../services/http/auth/auth.service";
-import { LoginRequest } from "../../services/http/auth/models/login-request.model";
+import { LoginRequest } from "./models/login-request.model";
 import { LoginForm } from "./models/login.model";
+import { LoginHttpClient } from "./login-http-client";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginPage {
     password: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
   });
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: LoginHttpClient) {}
 
   onSubmit() {
     if (this.form.invalid) {
