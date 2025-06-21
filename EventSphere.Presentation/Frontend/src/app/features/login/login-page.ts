@@ -1,9 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from "@angular/forms";
-import { LoginRequest } from "./models/login-request.model";
+import { LoginRequest } from "../../shared/models/request/login-request.model";
 import { LoginForm } from "./models/login.model";
-import { LoginHttpClient } from "./login-http-client";
+import { AuthHttpClient } from "../../shared/services/auth-http-client";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginPage {
     password: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
   });
 
-  constructor(private authService: LoginHttpClient) {}
+  constructor(private authHttpClient: AuthHttpClient) {}
 
   onSubmit() {
     if (this.form.invalid) {
@@ -31,6 +31,6 @@ export class LoginPage {
       password: this.form.value.password ?? '',
     };
 
-    this.authService.login(request).subscribe();
+    this.authHttpClient.login(request).subscribe();
   }
 }
