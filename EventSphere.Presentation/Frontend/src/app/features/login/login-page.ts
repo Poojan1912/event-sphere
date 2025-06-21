@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LoginForm } from './models/login.model';
-import { LoginRequest } from '../../services/http/auth/models/login-request.model';
-import { AuthService } from '../../services/http/auth/auth.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from "@angular/forms";
+import { AuthService } from "../../services/http/auth/auth.service";
+import { LoginRequest } from "../../services/http/auth/models/login-request.model";
+import { LoginForm } from "./models/login.model";
 
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
+export class LoginPage {
   form = new FormGroup<LoginForm>({
     email: new FormControl<string>('', {
       nonNullable: true,
