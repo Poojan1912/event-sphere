@@ -8,7 +8,7 @@ import { LoginForm } from "./models/login.model";
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './login.component.html',
+  templateUrl: './login-page.html',
 })
 export class LoginPage {
   form = new FormGroup<LoginForm>({
